@@ -31,6 +31,9 @@ describe('GET /event', () => {
       logoImageUrl: event.logoImageUrl,
       startsAt: event.startsAt.toISOString(),
       endsAt: event.endsAt.toISOString(),
+      onlinePrice: 0,
+      presentialPrice: 0,
+      accommodationPrice: 0,
     });
   });
 });

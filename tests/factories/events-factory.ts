@@ -3,7 +3,7 @@ import faker from '@faker-js/faker';
 import { Event } from '@prisma/client';
 import { prisma } from '@/config';
 
-export function createEvent(params: Partial<Event> = {}): Promise<Event> {
+export async function createEvent(params: Partial<Event> = {}): Promise<Event> {
   return prisma.event.create({
     data: {
       title: params.title || faker.lorem.sentence(),

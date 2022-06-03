@@ -3,20 +3,22 @@ import dayjs from 'dayjs';
 const prisma = new PrismaClient();
 
 async function main() {
-  let event = await prisma.event.findFirst();
-  if (!event) {
-    event = await prisma.event.create({
-      data: {
-        title: 'Driven.t',
-        logoImageUrl: 'https://files.driveneducation.com.br/images/logo-rounded.png',
-        backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
-        startsAt: dayjs().toDate(),
-        endsAt: dayjs().add(21, 'days').toDate(),
-      },
-    });
-  }
+  const event = {
+    title: 'Driven.t',
+    logoImageUrl: 'https://files.driveneducation.com.br/images/logo-rounded.png',
+    backgroundImageUrl: 'linear-gradient(to right, #FA4098, #FFD77F)',
+    startsAt: dayjs().toDate(),
+    endsAt: dayjs().add(21, 'days').toDate(),
+    accommodationPrice: 350,
+    presentialPrice: 250,
+    onlinePrice: 100,
+  };
 
-  console.log({ event });
+  await prisma.event.upsert({
+    where: { id: 1 },
+    create: event,
+    update: event,
+  });
 }
 
 main()

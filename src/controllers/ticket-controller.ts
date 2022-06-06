@@ -1,11 +1,16 @@
 import { Request, Response } from 'express';
-import ticketsService from '@/services/ticket-service';
-import httpStatus from 'http-status';
+import ticketService from '@/services/ticket-service';
+import { invalidDataError } from '@/errors';
 
 export async function confirmPayment(req: Request, res: Response) {
-  const { ticket } = req.body;
+  const { ticket, card } = req.body;
 
-  await ticketsService.insertTicket(ticket);
+  const validMonth = ticketService.checkExpirationMonth(card);
+  if (!validMonth) {
+    throw invalidDataError(['credit card expired']);
+  }
+
+  await ticketService.insertTicket(ticket);
 
   res.sendStatus(201);
 }

@@ -24,8 +24,19 @@ export async function insertTicket(ticket: TicketData) {
   return;
 }
 
+export function checkExpirationMonth(card: CardData) {
+  const date = new Date();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+
+  if (year === card.exp_year) {
+    return card.exp_month >= month;
+  } else return true;
+}
+
 const ticketService = {
   insertTicket,
+  checkExpirationMonth,
 };
 
 export default ticketService;

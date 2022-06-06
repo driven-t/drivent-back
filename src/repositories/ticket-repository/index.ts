@@ -7,7 +7,7 @@ async function insert(ticket: TicketData) {
       enrollmentId: ticket.enrollmentId,
       eventId: ticket.eventId,
       isOnline: ticket.isOnline,
-      withAccommodation: ticket.withAccommodation ? ticket.withAccommodation : false,
+      withAccommodation: ticket.withAccommodation ? true : false,
     },
   });
 

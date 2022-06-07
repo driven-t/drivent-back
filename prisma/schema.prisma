@@ -56,7 +56,11 @@ model Enrollment {
   Address   Address[]
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  Ticket    Ticket[]
+
+  roomId Int?
+  room   Room? @relation(fields: [roomId], references: [id])
+
+  Ticket Ticket[]
 }
 
 model Address {
@@ -82,4 +86,35 @@ model Ticket {
   event             Event      @relation(fields: [eventId], references: [id])
   isOnline          Boolean
   withAccommodation Boolean
+}
+
+model Hotel {
+  id       Int    @id @default(autoincrement())
+  name     String @unique
+  imageUrl String
+
+  Room Room[]
+}
+
+model RoomType {
+  id        Int    @id @default(autoincrement())
+  name      String @unique
+  vacancies Int    @unique
+
+  Room Room[]
+}
+
+model Room {
+  id     Int @id @default(autoincrement())
+  number Int
+
+  hotelId Int
+  hotel   Hotel @relation(fields: [hotelId], references: [id])
+
+  typeId Int
+  type   RoomType @relation(fields: [typeId], references: [id])
+
+  Enrollment Enrollment[]
+
+  @@unique([hotelId, number])
 }

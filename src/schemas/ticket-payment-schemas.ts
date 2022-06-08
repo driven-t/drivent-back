@@ -16,6 +16,6 @@ export const createPaymentSchema = Joi.object<CardAndTicketData>({
     enrollmentId: Joi.number().required(),
     eventId: Joi.number().required(),
     isOnline: Joi.boolean().required(),
-    withAccommodation: Joi.boolean().optional(),
+    withAccommodation: Joi.boolean().allow(null),
   },
 });

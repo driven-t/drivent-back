@@ -1,3 +1,4 @@
+import { invalidDataError } from '@/errors';
 import ticketRepository from '@/repositories/ticket-repository';
 
 export interface CardAndTicketData {
@@ -19,24 +20,22 @@ export interface TicketData {
   withAccommodation: boolean;
 }
 
-export async function insertTicket(ticket: TicketData) {
+export async function insertTicket(ticket: TicketData, card: CardData) {
+  checkExpirationMonth(card);
   await ticketRepository.insert(ticket);
   return;
 }
 
-export function checkExpirationMonth(card: CardData) {
+function checkExpirationMonth(card: CardData) {
   const date = new Date();
   const month = date.getMonth() + 1;
   const year = date.getFullYear();
 
-  if (year === card.exp_year) {
-    return card.exp_month >= month;
-  } else return true;
+  if (year === card.exp_year && card.exp_month < month) throw invalidDataError(['credit card expired']);
 }
 
 const ticketService = {
   insertTicket,
-  checkExpirationMonth,
 };
 
 export default ticketService;

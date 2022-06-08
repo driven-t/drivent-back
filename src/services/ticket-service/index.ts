@@ -1,3 +1,4 @@
+import { notFoundError } from '@/errors';
 import ticketRepository from '@/repositories/ticket-repository';
 
 export interface CardAndTicketData {
@@ -34,8 +35,17 @@ export function checkExpirationMonth(card: CardData) {
   } else return true;
 }
 
+export async function findTicket(enrollmentId: number) {
+  const ticket = await ticketRepository.find(enrollmentId);
+  if (!ticket) {
+    throw notFoundError();
+  }
+  return ticket;
+}
+
 const ticketService = {
   insertTicket,
+  findTicket,
   checkExpirationMonth,
 };
 

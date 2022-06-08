@@ -14,8 +14,17 @@ async function insert(ticket: TicketData) {
   return;
 }
 
+async function find(enrollmentId: number) {
+  return await prisma.ticket.findFirst({
+    where: {
+      enrollmentId,
+    },
+  });
+}
+
 const ticketRepository = {
   insert,
+  find,
 };
 
 export default ticketRepository;

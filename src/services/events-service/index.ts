@@ -1,6 +1,5 @@
 import { notFoundError } from '@/errors';
 import eventRepository from '@/repositories/event-repository';
-import { exclude } from '@/utils/prisma-utils';
 import { Event } from '@prisma/client';
 import dayjs from 'dayjs';
 
@@ -8,7 +7,7 @@ async function getFirstEvent(): Promise<GetFirstEventResult> {
   const event = await eventRepository.findFirst();
   if (!event) throw notFoundError();
 
-  return exclude(event, 'createdAt', 'updatedAt');
+  return event;
 }
 
 export type GetFirstEventResult = Omit<Event, 'createdAt' | 'updatedAt'>;

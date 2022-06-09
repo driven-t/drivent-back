@@ -21,6 +21,10 @@ export async function getTicket(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
 
   const enrollmentId = await enrollmentsService.getEnrollmentIdByUserId(userId);
+  if (!enrollmentId) {
+    res.send(null);
+    return;
+  }
   const ticket = await ticketService.findTicket(enrollmentId);
 
   res.status(200).send(ticket);
